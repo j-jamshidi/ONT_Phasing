@@ -10,6 +10,7 @@ from whatshap.variants import ReadSetReader
 import os
 from typing import Optional, Tuple, List
 
+#Change the path to your own reference file
 REFERENCE_FASTA = "/Users/javadjamshidi/Desktop/Refs/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna"
 
 def normalize_allele(allele: str) -> str:
