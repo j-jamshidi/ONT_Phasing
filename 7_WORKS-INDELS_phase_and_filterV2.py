@@ -171,7 +171,7 @@ def get_allele(read, variant) -> Optional[str]:
             elif ref_match_score >= len(ref_allele) * 0.8:  # Allow some mismatches
                 return 'ref'
     
-    # Handle SNVs (unchanged)
+    # Handle SNVs 
     else:
         query_pos = aligned_pairs[ref_pos_idx][0]
         if query_pos is None:
@@ -252,7 +252,7 @@ def quality_control(input_bam, vcf_file, output_bam):
             if alleles[0] in ['ref', 'alt'] and alleles[1] in ['ref', 'alt']:
                 clean_spanning_reads += 1
 
-                if read.mapping_quality >= 20:
+                if read.mapping_quality >= 15:
                     # Check QV for each base of the variants
                     qv_pass = True
                     if read.query_qualities is not None:
@@ -286,11 +286,11 @@ def quality_control(input_bam, vcf_file, output_bam):
     print(f"\nTotal reads: {total_reads}")
     print(f"Spanning reads: {spanning_reads} ({spanning_reads/total_reads*100:.2f}%)")
     print(f"Clean spanning reads: {clean_spanning_reads} ({clean_spanning_reads/spanning_reads*100:.2f}% of spanning reads)")
-    print(f"High quality reads (MAPQ >= 20 and QV >= 10): {high_quality_reads} ({high_quality_reads/clean_spanning_reads*100:.2f}% of clean spanning reads)")
+    print(f"High quality reads (MAPQ >= 15 and QV >= 10): {high_quality_reads} ({high_quality_reads/clean_spanning_reads*100:.2f}% of clean spanning reads)")
     print(f"Reads removed due to low QV: {low_qv_reads} ({low_qv_reads/clean_spanning_reads*100:.2f}% of clean spanning reads)")
 
-    if high_quality_reads > 100:
-        print("QC PASSED for the quality (Q>20) and depth (>100) of sequencing")
+    if high_quality_reads > 50:
+        print("QC PASSED for the quality (Q>15) and depth (>50) of sequencing")
     else:
         print("WARNING! The number of passed reads are below QC. Proceed with caution!")
 
